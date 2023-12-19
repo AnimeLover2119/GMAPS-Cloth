@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
             float mouseX = Input.GetAxis("Mouse X");
             float mouseY = Input.GetAxis("Mouse Y");
 
-            // Calculate the desired rotation angles
+            // calculate the desired rotation angles
             float XAngle = mouseX * rotationSpeed * Time.deltaTime;
             float YAngle = mouseY * rotationSpeed * Time.deltaTime;
 
@@ -41,13 +41,13 @@ public class CameraController : MonoBehaviour
             Quaternion XRotation = Quaternion.Euler(0f, XAngle, 0f);
             Quaternion YRotation = Quaternion.Euler(-YAngle, 0f, 0f);
 
-            // Apply rotations to the offset
+            // calculating a new offset vector based on mouse movenemt
             Vector3 offset = YRotation * (XRotation * origin);
 
-            // Set the new position of the camera, preserving the y-axis position
-            transform.position = new Vector3(ship.position.x + offset.x, ship.position.y + offset.y, ship.position.z + offset.z);
+            // adjust camera position based on calculated offset vector
+            transform.position = ship.position + offset;
 
-            // Make the camera look at the ship (you can skip this part if not needed)
+            //set camera transform to keep its rotation facing the ship
             transform.LookAt(ship.position);
         }
     }
@@ -56,13 +56,13 @@ public class CameraController : MonoBehaviour
     {
         float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
-        // Adjust the zoom based on the scroll wheel input
+        // adjust the zoom based on the scroll wheel input, using a clamp to prevent the camera from zooming to far in and out
         float newZoom = Mathf.Clamp(Vector3.Distance(transform.position, ship.position) - scrollWheel * zoomSpeed, minZoom, maxZoom);
 
-        // Calculate the new camera position
+        // calculate the new camera position by scaling the directional vector between the camera and ship via scalar newZoom
         Vector3 newPosition = ship.position + (transform.position - ship.position).normalized * newZoom;
 
-        // Apply the new position
+        // apply the new position
         transform.position = newPosition;
     }
 }

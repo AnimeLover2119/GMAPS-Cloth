@@ -21,9 +21,10 @@ public class UISliderController : MonoBehaviour
     public TextMeshProUGUI oscillationAmplitudeText;
     public TextMeshProUGUI oscillationFrequencyText;
 
-    // Start is called before the first frame update
+
     void Start()
     {
+        // set the current slider values to the default values assigned in each script
         windForce.value = windController.baseWindForce;
         flutterIntensity.value = windController.flutterIntensity;
         flutterFrequency.value = windController.flutterFrequency;
@@ -31,9 +32,9 @@ public class UISliderController : MonoBehaviour
         oscillationFrequency.value = windController.frequency;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // display current slider values for each wind attribute
         windForceText.text = "Wind Force: " + windController.baseWindForce.ToString("F1");
         flutterIntensityText.text = "Intensity: " + windController.flutterIntensity.ToString("F1");
         flutterFrequencyText.text = "Frequency: " + windController.flutterFrequency.ToString("F1");
@@ -41,6 +42,9 @@ public class UISliderController : MonoBehaviour
         oscillationFrequencyText.text = "Frequency: " + windController.frequency.ToString("F1");
     }
 
+
+    // below are methods that are assigned to each slider when an attribute is changed
+    // it will simply set the new value for the respective WindController attributes based on what is selected on the slider
     public void OnWindForceChanged (float value)
     {
         windController.baseWindForce = value;
