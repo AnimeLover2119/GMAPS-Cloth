@@ -50,12 +50,14 @@ public class WindController : MonoBehaviour
             // apply a general wind force in the windDirection vector
             sailCloth.externalAcceleration = windDirection * baseWindForce;
 
-            Vector3 sailNormal =  - sail.transform.right;
-            sailNormal.Normalize();
+            
 
             if (baseWindForce > 0)
             {
-                // estimate the alignment of the sail with the wind by calculating the dot product between the wind force and the normal of the sail object (going toward the front of the ship)
+                Vector3 sailNormal = -sail.transform.right;
+                sailNormal.Normalize();
+
+                // estimate the alignment of the sail with the wind by calculating the dot product between the wind force and the normal of the sail object (direction toward the front of the ship)
                 // i also clamped the alignment to be between 0 and 1 even though dot product can be negative,
                 // as this assumes that the percentage will represent how much forward force could be applied to the ship
                 float sailAlignment = Mathf.Clamp01(Vector3.Dot(windDirection, sailNormal));
@@ -99,7 +101,7 @@ public class WindController : MonoBehaviour
 
     // this method is to oscillate the position of WindZone to vary the vertical direction of the wind
     // this is done by simply translating the y position of the camera to the shape of a Sine wave
-    // simulates the "wavier" nature of wind at sea
+    // simulates the "cyclical" nature of wind at sea
     void oscillateY()
     {
         
